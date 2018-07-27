@@ -89,14 +89,14 @@ void stopWeldPointer(){   // pointer for function that cut power to welder by ti
   sequenceState(0xff, 0); // easier to use this function call stop event and clear timerid within sequenceState
 }
 
-byte transformerWarmedUp(){   // now intiate pneumatic clamp
+void transformerWarmedUp(){   // now intiate pneumatic clamp
   Serial.println("Transformer warmed up");
   digitalWrite(PNEUMATIC_RELAY, HIGH);
   int weldTime = sequenceState(1, 0); // dummy signal to get weld time
   sequenceState(timer.setTimeout(stopWeldPointer, weldTime), 0);
 }
 
-byte triggerWeld(int weldTime){ // start by warming up transformer
+void triggerWeld(int weldTime){ // start by warming up transformer
   digitalWrite(TRANSFORMER_RELAY, HIGH);
   sequenceState(timer.setTimeout(transformerWarmedUp, TRASFORMER_WARM_UP), weldTime);
 }
